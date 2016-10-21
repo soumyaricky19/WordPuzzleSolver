@@ -46,7 +46,7 @@ public class WordPuzzle
 					a[i][j]= (char)(97+(java.lang.Math.random()*100)%26);
 			
 			
-			displayCrossword(a);
+			displayGrid(a);
 			
 // Search from Linked list		
             start = System.currentTimeMillis( );
@@ -135,7 +135,7 @@ public class WordPuzzle
 		}	
 	}
 	
-	public static void displayCrossword(char a[][])
+	public static void displayGrid(char a[][])
 	{
 		for(int i=0;i<a.length;i++)
 		{
