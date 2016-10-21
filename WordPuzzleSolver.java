@@ -108,7 +108,7 @@ public class WordPuzzleSolver
 			if (str.compareTo(s1)== 0)
 			{				
 				counter++;
-				//System.out.println("Matched string:"+str);
+				System.out.println("Matched string:"+str);
 				flag=true;						
 			}	
 			
@@ -118,17 +118,21 @@ public class WordPuzzleSolver
 	public static void searchTree(String str,BinarySearchTree<String> l)
 	{	
 		//System.out.println("Str:"+str);
-		//if(l.contains(str))			
-			//	System.out.println("Matched string:"+str);
-		//	counter++;
+		if(l.contains(str))		
+		{	
+			counter++;
+			System.out.println("Matched string:"+str);
+		}
 	}
 	
 	public static void searchQuadraticProbing(String str,QuadraticProbingHashTable<String> l)
 	{	
 		//System.out.println("Str:"+str);
-		if(l.contains(str))			
-			//	System.out.println("Matched string:"+str);
+		if(l.contains(str))
+		{
 			counter++;
+			System.out.println("Matched string:"+str);			
+		}	
 	}
 	
 	public static void displayCrossword(char a[][])
