@@ -26,8 +26,8 @@ public class WordPuzzleSolver
 			while((word=f.readLine())!=null)
 				{
 				//System.out.println(word);
-					//l1.add(word);
-					//l2.insert(word);
+					l1.add(word);
+					l2.insert(word);
 					l3.insert(word);
 					//System.out.println(count++);
 				}
@@ -51,12 +51,12 @@ public class WordPuzzleSolver
 // Search from Linked list		
             start = System.currentTimeMillis( );
             counter=0;
-            /*
+            
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
 					for (int k=0;k<directions;k++)
 						searchLinkedList(goDirections(a,i,j,k),l1);						
-			*/	
+				
             System.out.println("Counter"+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For Linked list, Elapsed time in ms: " + (end-start) );
@@ -65,12 +65,12 @@ public class WordPuzzleSolver
 // Search from Trees
             start = System.currentTimeMillis( );
             counter=0;
-            /*
+            
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
 					for (int k=0;k<directions;k++)
 						searchTree(goDirections(a,i,j,k),l2);							
-			*/	
+			
             System.out.println("Counter"+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For tress, Elapsed time in ms: " + (end-start) );
