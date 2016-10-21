@@ -11,6 +11,7 @@ public class WordPuzzle
 	static LinkedList<String> l1= new LinkedList<>();
 	static BinarySearchTree<String> l2= new BinarySearchTree<>();
 	static QuadraticProbingHashTable<String> l3=new QuadraticProbingHashTable<String>();
+	static LinearProbingHashTable l4= new LinearProbingHashTable();
 	public static void main (String args[])
 	{		
 		long start, end;
@@ -27,11 +28,21 @@ public class WordPuzzle
 				{
 				//System.out.println(word);
 					l1.add(word);
-					l2.insert(word);
+					//l2.insert(word);
 					l3.insert(word);
+					l4.add(word);
 					//System.out.println(count++);
 				}
 
+			/*
+			System.out.println(l1.size());
+			System.out.println(l2.nodeCount());
+			System.out.println(l3.size());
+			System.out.println(l4.getSize());
+			if (1==1)
+				return;
+			*/
+			
 			Scanner s=new Scanner(System.in);
 			System.out.println("Enter the number of rows:");
 			rows=s.nextInt();
@@ -57,7 +68,7 @@ public class WordPuzzle
 					for (int k=0;k<directions;k++)
 						searchLinkedList(goDirections(a,i,j,k),l1);						
 				
-            System.out.println("Counter"+counter);
+            System.out.println("Linked list: Counter"+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For Linked list, Elapsed time in ms: " + (end-start) );
 	
@@ -71,12 +82,12 @@ public class WordPuzzle
 					for (int k=0;k<directions;k++)
 						searchTree(goDirections(a,i,j,k),l2);							
 			
-            System.out.println("Counter"+counter);
+            System.out.println("Trees: Counter"+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For tress, Elapsed time in ms: " + (end-start) );
 
 			
-// Search from Hash table
+// Search from Quadratic probing Hash table
             start = System.currentTimeMillis( );
             counter=0;
             for(int i=0;i<a.length;i++)
@@ -84,9 +95,21 @@ public class WordPuzzle
 					for (int k=0;k<directions;k++)
 						searchQuadraticProbing(goDirections(a,i,j,k),l3);
 										
-            System.out.println("Counter"+counter);
+            System.out.println("Quadratic probing: Counter"+counter);
             end = System.currentTimeMillis( );
-            System.out.println( "For hash table, Elapsed time in ms: " + (end-start) );
+            System.out.println( "For Quadratic probing hash table, Elapsed time in ms: " + (end-start) );
+            
+// Search from Linear probing Hash table
+            start = System.currentTimeMillis( );
+            counter=0;
+            for(int i=0;i<a.length;i++)
+				for (int j=0;j<a[i].length;j++)
+					for (int k=0;k<directions;k++)
+						searchLinearProbing(goDirections(a,i,j,k),l4);
+										
+            System.out.println("Linear probing: Counter"+counter);
+            end = System.currentTimeMillis( );
+            System.out.println( "For Linear probing hash table, Elapsed time in ms: " + (end-start) );            
 			
 			
 		} 
@@ -108,7 +131,7 @@ public class WordPuzzle
 			if (str.compareTo(s1)== 0)
 			{				
 				counter++;
-				System.out.println("Matched string:"+str);
+				//System.out.println("Matched string:"+str);
 				flag=true;						
 			}	
 			
@@ -121,7 +144,7 @@ public class WordPuzzle
 		if(l.contains(str))		
 		{	
 			counter++;
-			System.out.println("Matched string:"+str);
+			//System.out.println("Matched string:"+str);
 		}
 	}
 	
@@ -131,10 +154,20 @@ public class WordPuzzle
 		if(l.contains(str))
 		{
 			counter++;
-			System.out.println("Matched string:"+str);			
+			//System.out.println("Matched string:"+str);			
 		}	
 	}
 	
+	public static void searchLinearProbing(String str,LinearProbingHashTable l)
+	{	
+		//System.out.println("Str:"+str);
+		if(l.contains(str))
+		{
+			counter++;
+			//System.out.println("Matched string:"+str);			
+		}	
+	}
+
 	public static void displayGrid(char a[][])
 	{
 		for(int i=0;i<a.length;i++)
