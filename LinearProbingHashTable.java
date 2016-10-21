@@ -28,24 +28,28 @@ public class LinearProbingHashTable
 	
 	private int myhash(String x )
 	 {
-	     int hashVal = x.hashCode( );
-	     hashVal %= array.length;
-	     if( hashVal < 0 )
-	         hashVal += array.length;
+	     int hashVal = hashFunc1(x);
+	     int temp=hashVal;
+	     int i=0;
 	     
-	     double i=1;
-	     
-	     while (array[hashVal] != null && !array[hashVal].equals(x))
+	     while (array[temp] != null && !array[temp].equals(x))
 	     {    		
-//	    	hashVal++;
-	    	 
-	    	i*=i;
-		    hashVal+=i;
-		    
-	    	hashVal %= array.length;
+//	    	hashVal++; 
+//	    	i+=2;
+//		    hashVal+=i;	  
+	    	i++; 
+	    	temp=hashVal+i*i*hashFunc2(x);
+	    	temp=temp%array.length;
+	    	if (temp<0)
+				temp+=array.length;
+	    	
+	//    	System.out.println(i);
+	 //   	System.out.println(array.length);
+	 //   	System.out.println(temp);
+	    	
 	     }		     
 
-	     return hashVal;
+	     return temp;
 	 }
 	
 	public boolean contains (String x )
@@ -62,7 +66,7 @@ public class LinearProbingHashTable
 		int oldcurrentSize=currentSize;
 		
 		//array=new String[nextPrime(2*array.length)];
-		array=new String[2*array.length];
+		array=new String[nextPrime(2*array.length)];
 		for (String s: oldarray)
 		{
 			if (s!=null)
@@ -76,7 +80,80 @@ public class LinearProbingHashTable
 		
 	}
 */	
+	public int hashFunc1(String x)
+	{
+		int n=7;
+		StringBuilder sb= new StringBuilder(x);
+		for(int i=0;i< sb.length();i++)
+		{
+			n=31*n+(int)sb.charAt(i);
+		}
+		n%=array.length;
+		if (n<0)
+			n+=array.length;
+		
+		return n;
+	}
 	
+	public int hashFunc2(String x)
+	{
+		int n=7;
+		StringBuilder sb= new StringBuilder(x);
+		for(int i=0;i< sb.length();i++)
+		{
+			n=31*n+(int)sb.charAt(i);
+		}
+		n%=array.length;
+		if (n<0)
+			n+=array.length;
+		
+		//System.out.println(prevPrime(array.length));
+		n=prevPrime(array.length)-(n%prevPrime(array.length));
+		return n;
+	}
+
+	 private static int nextPrime( int n )
+	 {
+	     if( n % 2 == 0 )
+	         n++;
+
+	     for( ; !isPrime( n ); n += 2 )
+	         ;
+
+	     return n;
+	 }
+	 
+	 private static int prevPrime( int n )
+	 {
+	     if( n % 2 == 0 )
+	         n--;
+
+	     for( ; !isPrime( n ); n -= 2 )
+	         ;
+
+	     return n;
+	 }
+	 
+	 private static boolean isPrime( int n )
+	 {
+	     if( n == 2 || n == 3 )
+	         return true;
+
+	     if( n == 1 || n % 2 == 0 )
+	         return false;
+
+	     for( int i = 3; i * i <= n; i += 2 )
+	         if( n % i == 0 )
+	             return false;
+
+	     return true;
+	 }
+
+	
+	public String valueAt(int n)
+	{
+		return array[n];
+	}
 	public int getSize()
 	{
 		return currentSize;

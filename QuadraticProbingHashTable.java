@@ -250,6 +250,13 @@ public class QuadraticProbingHashTable<AnyType>
 
      return true;
  }
+ public AnyType valueAt(int n)
+	{
+	 	if	(array[n]!=null)
+	 		return array[n].element;
+	 	else 
+	 		return null;
+	}
 
 
  // Simple main
