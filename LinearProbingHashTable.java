@@ -71,9 +71,15 @@ public class LinearProbingHashTable
 	     if( hashVal < 0 )
 	         hashVal += array.length;
 	     
+	     double i=1;
+	     
 	     while (array[hashVal] != null)
 	     {
-	    	hashVal++;
+//	    	hashVal++;
+	    	 
+	    	i=java.lang.Math.pow(i,2);
+		    hashVal+=i;
+		    
 	    	hashVal %= array.length;
 	     }	
 	     return hashVal;
@@ -86,16 +92,21 @@ public class LinearProbingHashTable
 	    if( hashVal < 0 )
 	         hashVal += array.length;
 	    
+	    double i=1;
 	    while (array[hashVal] != null)
 	    {
 	    	if (array[hashVal].equals(x))
 	    		return true;
-	    	hashVal++;
+//	    	hashVal++;
+	    	
+	    	i=java.lang.Math.pow(i,2);
+	    	hashVal+=i;
+	    	
 	    	hashVal %= array.length;
 	    }
 	    return false;
 	}
-	
+
 	public int getSize()
 	{
 		return currentSize;
