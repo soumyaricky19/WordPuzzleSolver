@@ -29,19 +29,30 @@ public class LinearProbingHashTable
 	private int myhash(String x )
 	 {
 	     int hashVal = hashFunc1(x);
-	     int temp=hashVal;
-	     int i=0;
+// 		 int temp=hashVal;
+		
+//		 int hashVal=x.hashCode();
+		 hashVal%=array.length;
+		 if (hashVal<0)
+			 hashVal+=array.length;
+		 	     
+	     int i=1;
 	     
-	     while (array[temp] != null && !array[temp].equals(x))
+	     while (array[hashVal] != null && !array[hashVal].equals(x))
 	     {    		
 //	    	hashVal++; 
 //	    	i+=2;
 //		    hashVal+=i;	  
-	    	i++; 
-	    	temp=hashVal+i*i*hashFunc2(x);
-	    	temp=temp%array.length;
-	    	if (temp<0)
-				temp+=array.length;
+//	    	i++; 
+//	    	temp=hashVal+i*i*hashFunc2(x);
+//	    	temp=temp%array.length;
+//	    	if (temp<0)
+//				temp+=array.length;
+	    	 
+	    	 // Own collision resolution strategy
+	    	 i*=i;
+	    	 hashVal+=i;
+	    	 hashVal%=array.length;
 	    	
 	//    	System.out.println(i);
 	 //   	System.out.println(array.length);
@@ -49,7 +60,7 @@ public class LinearProbingHashTable
 	    	
 	     }		     
 
-	     return temp;
+	     return hashVal;
 	 }
 	
 	public boolean contains (String x )
