@@ -55,17 +55,17 @@ public class WordPuzzle
 			rows=s.nextInt();
 			System.out.println("Enter the number of columns:");
 			columns=s.nextInt();
-//			s.close();
-			//char a[][]= new char[rows][columns];
+			s.close();
+		//	char a[][]= new char[rows][columns];
 			
 			
 			
 			//Insert random letters
-	/*		for(int i=0;i<rows;i++)
+			/*	for(int i=0;i<rows;i++)
 				for (int j=0;j<columns;j++)
 					a[i][j]= (char)(97+(java.lang.Math.random()*100)%26);
 				
-					
+		*/				
 			char[][] a = { 
                     {'f','y','y','h','n','r','d'},
                     {'r','l','j','c','i','n','u'},
@@ -75,11 +75,11 @@ public class WordPuzzle
                     {'e','o','g','o','t','p','n'},
                     {'h','p','o','l','a','n','d'}
                   };			
-	*/
+	/*
 			char[][] a = { 
                     {'f','a'},
                     {'r','l'}};
-                    
+      */              
                   
                   
 			
