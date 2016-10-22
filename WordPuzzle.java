@@ -56,16 +56,16 @@ public class WordPuzzle
 			System.out.println("Enter the number of columns:");
 			columns=s.nextInt();
 			s.close();
-		//	char a[][]= new char[rows][columns];
+			char a[][]= new char[rows][columns];
 			
 			
 			
 			//Insert random letters
-			/*	for(int i=0;i<rows;i++)
+				for(int i=0;i<rows;i++)
 				for (int j=0;j<columns;j++)
 					a[i][j]= (char)(97+(java.lang.Math.random()*100)%26);
-				
-		*/				
+		/*		
+									
 			char[][] a = { 
                     {'f','y','y','h','n','r','d'},
                     {'r','l','j','c','i','n','u'},
@@ -75,7 +75,7 @@ public class WordPuzzle
                     {'e','o','g','o','t','p','n'},
                     {'h','p','o','l','a','n','d'}
                   };			
-	/*
+			
 			char[][] a = { 
                     {'f','a'},
                     {'r','l'}};
@@ -83,7 +83,7 @@ public class WordPuzzle
                   
                   
 			
-			//displayGrid(a);
+			displayGrid(a);
 			
 // Search from Linked list		
             start = System.currentTimeMillis( );
@@ -185,7 +185,7 @@ public class WordPuzzle
 		if(l.contains(str))
 		{
 			counter++;
-			System.out.println("Matched string:"+str);			
+			//System.out.println("Matched string:"+str);			
 		}	
 	}
 	
