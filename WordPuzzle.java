@@ -26,38 +26,64 @@ public class WordPuzzle
 			BufferedReader f = new BufferedReader(new FileReader("dictionary.txt"));
 			while((word=f.readLine())!=null)
 				{
-				//System.out.println(word);
-					l1.add(word);
+					//l1.add(word);
 					//l2.insert(word);
 					l3.insert(word);
 					l4.add(word);
 					//System.out.println(count++);
 				}
-
-			/*
-			System.out.println(l1.size());
-			System.out.println(l2.nodeCount());
+			f.close();
+			
+			//System.out.println(l1.size());
+			//System.out.println(l2.nodeCount());
 			System.out.println(l3.size());
 			System.out.println(l4.getSize());
+		/*	for(int i=0;i<l3.size();i++)
+			{
+				if (l3.valueAt(i)!=l4.valueAt(i) && l3.valueAt(i)!=null && l4.valueAt(i)!=null)
+				{
+					System.out.println("Something fishy:"+l3.valueAt(i)+":"+l4.valueAt(i));
+				}
+			}
+			
 			if (1==1)
 				return;
-			*/
+		*/	
 			
 			Scanner s=new Scanner(System.in);
 			System.out.println("Enter the number of rows:");
 			rows=s.nextInt();
 			System.out.println("Enter the number of columns:");
 			columns=s.nextInt();
-			s.close();
-			char a[][]= new char[rows][columns];
+//			s.close();
+			//char a[][]= new char[rows][columns];
+			
+			
 			
 			//Insert random letters
-			for(int i=0;i<rows;i++)
+	/*		for(int i=0;i<rows;i++)
 				for (int j=0;j<columns;j++)
 					a[i][j]= (char)(97+(java.lang.Math.random()*100)%26);
+				
+					
+			char[][] a = { 
+                    {'f','y','y','h','n','r','d'},
+                    {'r','l','j','c','i','n','u'},
+                    {'a','a','w','a','a','h','r'},
+                    {'n','t','k','l','p','n','e'},
+                    {'c','i','l','f','s','a','p'},
+                    {'e','o','g','o','t','p','n'},
+                    {'h','p','o','l','a','n','d'}
+                  };			
+	*/
+			char[][] a = { 
+                    {'f','a'},
+                    {'r','l'}};
+                    
+                  
+                  
 			
-			
-			displayGrid(a);
+			//displayGrid(a);
 			
 // Search from Linked list		
             start = System.currentTimeMillis( );
@@ -66,7 +92,8 @@ public class WordPuzzle
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
 					for (int k=0;k<directions;k++)
-						searchLinkedList(goDirections(a,i,j,k),l1);						
+						break;
+						//searchLinkedList(goDirections(a,i,j,k),l1);						
 				
             System.out.println("Linked list: Counter"+counter);
             end = System.currentTimeMillis( );
@@ -80,7 +107,8 @@ public class WordPuzzle
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
 					for (int k=0;k<directions;k++)
-						searchTree(goDirections(a,i,j,k),l2);							
+						break;
+						//searchTree(goDirections(a,i,j,k),l2);							
 			
             System.out.println("Trees: Counter"+counter);
             end = System.currentTimeMillis( );
@@ -92,8 +120,11 @@ public class WordPuzzle
             counter=0;
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
+				{
+					forSearch(String.valueOf(a[i][j]),l3);
 					for (int k=0;k<directions;k++)
-						searchQuadraticProbing(goDirections(a,i,j,k),l3);
+						goDirections(a,i,j,k,l3);
+				}
 										
             System.out.println("Quadratic probing: Counter"+counter);
             end = System.currentTimeMillis( );
@@ -104,8 +135,11 @@ public class WordPuzzle
             counter=0;
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
-					for (int k=0;k<directions;k++)
-						searchLinearProbing(goDirections(a,i,j,k),l4);
+				{
+					forSearch(String.valueOf(a[i][j]),l4);
+					for (int k=0;k<directions;k++)						
+						goDirections(a,i,j,k,l4);
+				}	
 										
             System.out.println("Linear probing: Counter"+counter);
             end = System.currentTimeMillis( );
@@ -122,7 +156,6 @@ public class WordPuzzle
 		
 	public static void searchLinkedList(String str,LinkedList<String> l)
 	{	
-		//System.out.println("Str:"+str);
 		boolean flag=false;
 		Iterator<String> itr=l.iterator();
 		while(itr.hasNext() && !flag)
@@ -140,7 +173,6 @@ public class WordPuzzle
 	
 	public static void searchTree(String str,BinarySearchTree<String> l)
 	{	
-		//System.out.println("Str:"+str);
 		if(l.contains(str))		
 		{	
 			counter++;
@@ -150,11 +182,10 @@ public class WordPuzzle
 	
 	public static void searchQuadraticProbing(String str,QuadraticProbingHashTable<String> l)
 	{	
-		//System.out.println("Str:"+str);
 		if(l.contains(str))
 		{
 			counter++;
-			//System.out.println("Matched string:"+str);			
+			System.out.println("Matched string:"+str);			
 		}	
 	}
 	
@@ -164,8 +195,22 @@ public class WordPuzzle
 		if(l.contains(str))
 		{
 			counter++;
-			//System.out.println("Matched string:"+str);			
+			System.out.println("Matched string:"+str);			
 		}	
+	}
+	public static void forSearch(String str,Object obj)
+	{
+		//System.out.println("Object:"+obj);
+		//System.out.println("Random string:"+str);
+		if (obj instanceof LinkedList<?>)
+			searchLinkedList(str,(LinkedList<String>)obj);
+		else if (obj instanceof BinarySearchTree<?>)
+			searchTree(str,(BinarySearchTree<String>)obj);
+		else if (obj instanceof QuadraticProbingHashTable<?>)
+			searchQuadraticProbing(str,(QuadraticProbingHashTable<String>)obj);
+		else if (obj instanceof LinearProbingHashTable)
+			searchLinearProbing(str,(LinearProbingHashTable)obj);
+			
 	}
 
 	public static void displayGrid(char a[][])
@@ -179,52 +224,78 @@ public class WordPuzzle
 	}
 	
 	
-	public static String goDirections(char a[][],int i,int j,int k)
+	public static String goDirections(char a[][],int i,int j,int k,Object o)
 	{
 		
 		StringBuilder sb = new StringBuilder();
+		sb.append(a[i][j]);
+//		forSearch(sb,o);
 		//System.out.println("k:"+k);
 		switch (k)
 		{
 			case 0:
-				sb.setLength(0);
-				for (int y=j; y<a[i].length ;y++)
+				//sb.setLength(1);
+				for (int y=j+1; y<a[i].length ;y++)
+				{
 					sb.append(a[i][y]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 			case 1:
-				sb.setLength(0);
-				for (int x=i,y=j; x<a.length && y<a[i].length ;x++,y++)
+				//sb.setLength(1);
+				for (int x=i+1,y=j+1; x<a.length && y<a[i].length ;x++,y++)
+				{
 					sb.append(a[x][y]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 			case 2:
-				sb.setLength(0);
-				for (int x=i; x<a.length ;x++)
+				//sb.setLength(1);
+				for (int x=i+1; x<a.length ;x++)
+				{
 					sb.append(a[x][j]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 			case 3:
-				sb.setLength(0);
-				for (int x=i,y=j; x<a.length && y>=0 ;x++,y--)
+				//sb.setLength(1);
+				for (int x=i+1,y=j-1; x<a.length && y>=0 ;x++,y--)
+				{
 					sb.append(a[x][y]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 			case 4:
-				sb.setLength(0);
-				for (int y=j; y>=0 ;y--)
+				//sb.setLength(1);
+				for (int y=j-1; y>=0 ;y--)
+				{
 					sb.append(a[i][y]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 			case 5:
-				sb.setLength(0);
-				for (int x=i,y=j; x>=0 && y>=0 ;x--,y--)
-					sb.append(a[i][y]);
+				//sb.setLength(1);
+				for (int x=i-1,y=j-1; x>=0 && y>=0 ;x--,y--)
+				{	
+					sb.append(a[x][y]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 			case 6:	
-				sb.setLength(0);
-				for (int x=i; x>=0 ;x--)
+				//sb.setLength(1);
+				for (int x=i-1; x>=0 ;x--)
+				{
 					sb.append(a[x][j]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 			case 7:
-				sb.setLength(0);
-				for (int x=i,y=j; x>=0 && y<a[i].length ;x--,y++)
-					sb.append(a[i][y]);
+				//sb.setLength(1);
+				for (int x=i-1,y=j+1; x>=0 && y<a[i].length ;x--,y++)
+				{
+					sb.append(a[x][y]);
+					forSearch(sb.toString(),o);
+				}
 				break;
 		}
 		
