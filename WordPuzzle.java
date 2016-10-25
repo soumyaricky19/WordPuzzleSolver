@@ -12,7 +12,7 @@ public class WordPuzzle
 	//static BinarySearchTree<String> l2= new BinarySearchTree<>();
 	static AvlTree<String> l2= new AvlTree<>();
 	static QuadraticProbingHashTable<String> l3=new QuadraticProbingHashTable<String>();
-	static LinearProbingHashTable l4= new LinearProbingHashTable();
+	static MyHashTable l4= new MyHashTable();
 	static PrintWriter outFile1,outFile2,outFile3,outFile4;
 	static 
 	{
@@ -221,7 +221,7 @@ public class WordPuzzle
 		}	
 	}
 	
-	public static void searchLinearProbing(String str,LinearProbingHashTable l)
+	public static void searchLinearProbing(String str,MyHashTable l)
 	{	
 		//System.out.println("Str:"+str);
 		if(l.contains(str))
@@ -243,8 +243,8 @@ public class WordPuzzle
  			searchTree(str,(AvlTree<String>)obj);
 		else if (obj instanceof QuadraticProbingHashTable<?>)
 			searchQuadraticProbing(str,(QuadraticProbingHashTable<String>)obj);
-		else if (obj instanceof LinearProbingHashTable)
-			searchLinearProbing(str,(LinearProbingHashTable)obj);
+		else if (obj instanceof MyHashTable)
+			searchLinearProbing(str,(MyHashTable)obj);
 	}
 
 	public static void displayGrid(char a[][])
