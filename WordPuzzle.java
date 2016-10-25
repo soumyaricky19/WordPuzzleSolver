@@ -3,7 +3,7 @@ package project4;
 import java.util.*;
 import java.io.*;
 
-public class WordPuzzle 
+public class WordPuzzle
 {
 	static int rows=0,columns=0,directions=8;
 	static int counter=0,count=0;
@@ -12,6 +12,22 @@ public class WordPuzzle
 	static BinarySearchTree<String> l2= new BinarySearchTree<>();
 	static QuadraticProbingHashTable<String> l3=new QuadraticProbingHashTable<String>();
 	static LinearProbingHashTable l4= new LinearProbingHashTable();
+	static PrintWriter outFile1,outFile2,outFile3,outFile4;
+	static 
+	{
+		
+	try 
+	{
+		 outFile1 = new PrintWriter("Matched_words_LL.txt");
+		 outFile2 = new PrintWriter("Matched_words_trees.txt");
+		 outFile3 = new PrintWriter("Matched_words_QH.txt");
+		 outFile4 = new PrintWriter("Matched_words_myHash.txt");
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	}
+	
 	public static void main (String args[])
 	{		
 		long start, end;
@@ -20,8 +36,9 @@ public class WordPuzzle
 		try 
 		{
 			System.out.println("Loading dictionary. Please wait ...");
-
+			
 			String word=null;
+			
 			//Read dictionary words
 			BufferedReader f = new BufferedReader(new FileReader("dictionary.txt"));
 			while((word=f.readLine())!=null)
@@ -122,7 +139,7 @@ public class WordPuzzle
 				for (int j=0;j<a[i].length;j++)
 				{
 					forSearch(String.valueOf(a[i][j]),l3);
-					for (int k=0;k<directions;k++)
+					for (int k=0;k<directions;k++)						
 						goDirections(a,i,j,k,l3);
 				}
 										
@@ -139,10 +156,16 @@ public class WordPuzzle
 					forSearch(String.valueOf(a[i][j]),l4);
 					for (int k=0;k<directions;k++)						
 						goDirections(a,i,j,k,l4);
+					
 				}	
 										
             System.out.println("Linear probing: Counter"+counter);
             end = System.currentTimeMillis( );
+            outFile1.close();
+            outFile2.close();
+            outFile3.close();
+            outFile4.close();
+            
             System.out.println( "For Linear probing hash table, Elapsed time in ms: " + (end-start) );            
 			
 			
@@ -164,6 +187,7 @@ public class WordPuzzle
 			if (str.compareTo(s1)== 0)
 			{				
 				counter++;
+				outFile4.println(str);
 				//System.out.println("Matched string:"+str);
 				flag=true;						
 			}	
@@ -176,6 +200,7 @@ public class WordPuzzle
 		if(l.contains(str))		
 		{	
 			counter++;
+			outFile2.println(str);
 			//System.out.println("Matched string:"+str);
 		}
 	}
@@ -185,6 +210,7 @@ public class WordPuzzle
 		if(l.contains(str))
 		{
 			counter++;
+			outFile3.println(str);
 			//System.out.println("Matched string:"+str);			
 		}	
 	}
@@ -195,7 +221,8 @@ public class WordPuzzle
 		if(l.contains(str))
 		{
 			counter++;
-			System.out.println("Matched string:"+str);			
+			outFile4.println(str);
+			//System.out.println("Matched string:"+str);			
 		}	
 	}
 	public static void forSearch(String str,Object obj)
@@ -210,7 +237,6 @@ public class WordPuzzle
 			searchQuadraticProbing(str,(QuadraticProbingHashTable<String>)obj);
 		else if (obj instanceof LinearProbingHashTable)
 			searchLinearProbing(str,(LinearProbingHashTable)obj);
-			
 	}
 
 	public static void displayGrid(char a[][])
@@ -224,13 +250,12 @@ public class WordPuzzle
 	}
 	
 	
-	public static String goDirections(char a[][],int i,int j,int k,Object o)
+	public static void goDirections(char a[][],int i,int j,int k,Object o)
 	{
 		
 		StringBuilder sb = new StringBuilder();
+		boolean matched=false;
 		sb.append(a[i][j]);
-//		forSearch(sb,o);
-		//System.out.println("k:"+k);
 		switch (k)
 		{
 			case 0:
@@ -299,6 +324,5 @@ public class WordPuzzle
 				break;
 		}
 		
-		return new String(sb);
 	}
 }
