@@ -9,7 +9,8 @@ public class WordPuzzle
 	static int counter=0,count=0;
 	char a[][]= new char[rows][columns];
 	static LinkedList<String> l1= new LinkedList<>();
-	static BinarySearchTree<String> l2= new BinarySearchTree<>();
+	//static BinarySearchTree<String> l2= new BinarySearchTree<>();
+	static AvlTree<String> l2= new AvlTree<>();
 	static QuadraticProbingHashTable<String> l3=new QuadraticProbingHashTable<String>();
 	static LinearProbingHashTable l4= new LinearProbingHashTable();
 	static PrintWriter outFile1,outFile2,outFile3,outFile4;
@@ -43,8 +44,8 @@ public class WordPuzzle
 			BufferedReader f = new BufferedReader(new FileReader("dictionary.txt"));
 			while((word=f.readLine())!=null)
 				{
-					//l1.add(word);
-					//l2.insert(word);
+					l1.add(word);
+					l2.insert(word);
 					l3.insert(word);
 					l4.add(word);
 					//System.out.println(count++);
@@ -108,10 +109,12 @@ public class WordPuzzle
             
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
+				{
+					forSearch(String.valueOf(a[i][j]),l1);
 					for (int k=0;k<directions;k++)
-						break;
-						//searchLinkedList(goDirections(a,i,j,k),l1);						
-				
+	//					break;
+						goDirections(a,i,j,k,l1);						
+				}
             System.out.println("Linked list: Counter"+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For Linked list, Elapsed time in ms: " + (end-start) );
@@ -123,10 +126,12 @@ public class WordPuzzle
             
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
+				{
+					forSearch(String.valueOf(a[i][j]),l2);
 					for (int k=0;k<directions;k++)
-						break;
-						//searchTree(goDirections(a,i,j,k),l2);							
-			
+		//				break;
+						goDirections(a,i,j,k,l2);							
+				}
             System.out.println("Trees: Counter"+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For tress, Elapsed time in ms: " + (end-start) );
@@ -187,7 +192,7 @@ public class WordPuzzle
 			if (str.compareTo(s1)== 0)
 			{				
 				counter++;
-				outFile4.println(str);
+				outFile1.println(str);
 				//System.out.println("Matched string:"+str);
 				flag=true;						
 			}	
@@ -195,7 +200,8 @@ public class WordPuzzle
 		}
 	}
 	
-	public static void searchTree(String str,BinarySearchTree<String> l)
+//	public static void searchTree(String str,BinarySearchTree<String> l)
+	public static void searchTree(String str,AvlTree<String> l)
 	{	
 		if(l.contains(str))		
 		{	
@@ -231,8 +237,10 @@ public class WordPuzzle
 		//System.out.println("Random string:"+str);
 		if (obj instanceof LinkedList<?>)
 			searchLinkedList(str,(LinkedList<String>)obj);
-		else if (obj instanceof BinarySearchTree<?>)
-			searchTree(str,(BinarySearchTree<String>)obj);
+//		else if (obj instanceof BinarySearchTree<?>)
+//			searchTree(str,(BinarySearchTree<String>)obj);
+		else if (obj instanceof AvlTree<?>)
+ 			searchTree(str,(AvlTree<String>)obj);
 		else if (obj instanceof QuadraticProbingHashTable<?>)
 			searchQuadraticProbing(str,(QuadraticProbingHashTable<String>)obj);
 		else if (obj instanceof LinearProbingHashTable)
@@ -254,12 +262,10 @@ public class WordPuzzle
 	{
 		
 		StringBuilder sb = new StringBuilder();
-		boolean matched=false;
 		sb.append(a[i][j]);
 		switch (k)
 		{
 			case 0:
-				//sb.setLength(1);
 				for (int y=j+1; y<a[i].length ;y++)
 				{
 					sb.append(a[i][y]);
@@ -267,7 +273,6 @@ public class WordPuzzle
 				}
 				break;
 			case 1:
-				//sb.setLength(1);
 				for (int x=i+1,y=j+1; x<a.length && y<a[i].length ;x++,y++)
 				{
 					sb.append(a[x][y]);
@@ -275,7 +280,6 @@ public class WordPuzzle
 				}
 				break;
 			case 2:
-				//sb.setLength(1);
 				for (int x=i+1; x<a.length ;x++)
 				{
 					sb.append(a[x][j]);
@@ -283,7 +287,6 @@ public class WordPuzzle
 				}
 				break;
 			case 3:
-				//sb.setLength(1);
 				for (int x=i+1,y=j-1; x<a.length && y>=0 ;x++,y--)
 				{
 					sb.append(a[x][y]);
@@ -291,7 +294,6 @@ public class WordPuzzle
 				}
 				break;
 			case 4:
-				//sb.setLength(1);
 				for (int y=j-1; y>=0 ;y--)
 				{
 					sb.append(a[i][y]);
@@ -299,7 +301,6 @@ public class WordPuzzle
 				}
 				break;
 			case 5:
-				//sb.setLength(1);
 				for (int x=i-1,y=j-1; x>=0 && y>=0 ;x--,y--)
 				{	
 					sb.append(a[x][y]);
@@ -307,7 +308,6 @@ public class WordPuzzle
 				}
 				break;
 			case 6:	
-				//sb.setLength(1);
 				for (int x=i-1; x>=0 ;x--)
 				{
 					sb.append(a[x][j]);
@@ -315,7 +315,6 @@ public class WordPuzzle
 				}
 				break;
 			case 7:
-				//sb.setLength(1);
 				for (int x=i-1,y=j+1; x>=0 && y<a[i].length ;x--,y++)
 				{
 					sb.append(a[x][y]);
