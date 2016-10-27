@@ -42,7 +42,7 @@ public class MyHashTable
 	    	 collisions++; 
 	    	 
 	    	 // Own collision resolution strategy
-	    	 i+=i;
+	    	 i*=3;
 	    	 hashVal+=i;
 	    	 hashVal%=array.length;	 
 	     }		     
