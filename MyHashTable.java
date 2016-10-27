@@ -3,10 +3,10 @@ package project4;
 public class MyHashTable
 {
 
-	private static final int DEFAULT_TABLE_SIZE = 300000;
+	private static final int DEFAULT_TABLE_SIZE = 101;
 	String[] array;
 	private int currentSize;
-	
+	public int count=0;
 	MyHashTable()
 	{
 		array=new String[DEFAULT_TABLE_SIZE];
@@ -28,11 +28,17 @@ public class MyHashTable
 	
 	private int myhash(String x )
 	 {
-	     int hashVal = hashFunc(x);
+		int hashVal=x.hashCode();
+		hashVal%=array.length;
+		if (hashVal<0)
+			hashVal+=array.length;
+		
+		//int hashVal = hashFunc(x);
 	     int i=0;
 	     
 	     while (array[hashVal] != null && !array[hashVal].equals(x))
 	     {    		
+	    	count++; 
 	    	i++;
 		    hashVal+=i;	  
 		    hashVal%=array.length ;
@@ -61,7 +67,7 @@ public class MyHashTable
 		int oldcurrentSize=currentSize;
 		
 		//array=new String[nextPrime(2*array.length)];
-		array=new String[nextPrime(array.length*array.length)];
+		array=new String[nextPrime(array.length*array.length*array.length)];
 		for (String s: oldarray)
 		{
 			if (s!=null)

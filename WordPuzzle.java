@@ -124,6 +124,7 @@ public class WordPuzzle
 				}	
 										
             System.out.println("My hash: Counter- "+counter);
+            System.out.println("Collisions:"+ l3.count);
             end = System.currentTimeMillis( );
             outFile1.close();
             outFile2.close();
@@ -142,20 +143,12 @@ public class WordPuzzle
 		
 	public static void searchLinkedList(String str,LinkedList<String> l)
 	{	
-		boolean flag=false;
-		Iterator<String> itr=l.iterator();
-		while(itr.hasNext() && !flag)
-		{
-			String s1=(String) itr.next();
-			if (str.compareTo(s1)== 0)
+		if (l.contains(str))
 			{				
 				counter++;
 				outFile1.println(str);
 				//System.out.println("Matched string:"+str);
-				flag=true;						
 			}	
-			
-		}
 	}
 	
 	public static void searchTree(String str,AvlTree<String> l)
@@ -169,7 +162,7 @@ public class WordPuzzle
 	}
 	
 	
-	public static void searchLinearProbing(String str,MyHashTable l)
+	public static void searchMyHash(String str,MyHashTable l)
 	{	
 		if(l.contains(str))
 		{
@@ -187,7 +180,7 @@ public class WordPuzzle
 		else if (obj instanceof AvlTree<?>)
  			searchTree(str,(AvlTree<String>)obj);
 		else if (obj instanceof MyHashTable)
-			searchLinearProbing(str,(MyHashTable)obj);
+			searchMyHash(str,(MyHashTable)obj);
 	}
 
 	public static void displayGrid(char a[][])
