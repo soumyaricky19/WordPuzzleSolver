@@ -9,11 +9,10 @@ public class WordPuzzle
 	static int counter=0,count=0;
 	char a[][]= new char[rows][columns];
 	static LinkedList<String> l1= new LinkedList<>();
-	//static BinarySearchTree<String> l2= new BinarySearchTree<>();
 	static AvlTree<String> l2= new AvlTree<>();
-	static QuadraticProbingHashTable<String> l3=new QuadraticProbingHashTable<String>();
-	static MyHashTable l4= new MyHashTable();
-	static PrintWriter outFile1,outFile2,outFile3,outFile4;
+	static MyHashTable l3= new MyHashTable();
+	static PrintWriter outFile1,outFile2,outFile3;
+	
 	static 
 	{
 		
@@ -21,8 +20,7 @@ public class WordPuzzle
 	{
 		 outFile1 = new PrintWriter("Matched_words_LL.txt");
 		 outFile2 = new PrintWriter("Matched_words_trees.txt");
-		 outFile3 = new PrintWriter("Matched_words_QH.txt");
-		 outFile4 = new PrintWriter("Matched_words_myHash.txt");
+		 outFile3 = new PrintWriter("Matched_words_myHash.txt");
 	} catch (FileNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -36,144 +34,104 @@ public class WordPuzzle
 		
 		try 
 		{
-			System.out.println("Loading dictionary. Please wait ...");
-			
+			System.out.println("Loading dictionary. Please wait ...");		
 			String word=null;
 			
 			//Read dictionary words
 			BufferedReader f = new BufferedReader(new FileReader("dictionary.txt"));
+			
 			while((word=f.readLine())!=null)
 				{
-					l1.add(word);
+					//l1.add(word);
 					l2.insert(word);
-					l3.insert(word);
-					l4.add(word);
-					//System.out.println(count++);
+					l3.add(word);
+				 	if (++count%50000==0)
+						System.out.println("Please wait..."+ count+" words loaded..");
 				}
 			f.close();
-			
-			//System.out.println(l1.size());
-			//System.out.println(l2.nodeCount());
-			System.out.println(l3.size());
-			System.out.println(l4.getSize());
-		/*	for(int i=0;i<l3.size();i++)
-			{
-				if (l3.valueAt(i)!=l4.valueAt(i) && l3.valueAt(i)!=null && l4.valueAt(i)!=null)
-				{
-					System.out.println("Something fishy:"+l3.valueAt(i)+":"+l4.valueAt(i));
-				}
-			}
-			
-			if (1==1)
-				return;
-		*/	
-			
+			System.out.println("Total words loaded: "+count);
 			Scanner s=new Scanner(System.in);
 			System.out.println("Enter the number of rows:");
 			rows=s.nextInt();
 			System.out.println("Enter the number of columns:");
 			columns=s.nextInt();
 			s.close();
+			
 			char a[][]= new char[rows][columns];
-			
-			
 			
 			//Insert random letters
 				for(int i=0;i<rows;i++)
 				for (int j=0;j<columns;j++)
 					a[i][j]= (char)(97+(java.lang.Math.random()*100)%26);
-		/*		
-									
-			char[][] a = { 
-                    {'f','y','y','h','n','r','d'},
-                    {'r','l','j','c','i','n','u'},
-                    {'a','a','w','a','a','h','r'},
-                    {'n','t','k','l','p','n','e'},
-                    {'c','i','l','f','s','a','p'},
-                    {'e','o','g','o','t','p','n'},
-                    {'h','p','o','l','a','n','d'}
-                  };			
-			
-			char[][] a = { 
-                    {'f','a'},
-                    {'r','l'}};
-      */              
-                  
-                  
-			
+				
+			//Display the grid on console
 			displayGrid(a);
 			
 // Search from Linked list		
             start = System.currentTimeMillis( );
             counter=0;
-            
+            count=0;
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
 				{
 					forSearch(String.valueOf(a[i][j]),l1);
 					for (int k=0;k<directions;k++)
-	//					break;
-						goDirections(a,i,j,k,l1);						
+					{	break;
+						//if (++count%200==0)
+						//	System.out.println("Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
+						//goDirections(a,i,j,k,l1);
+					}
 				}
-            System.out.println("Linked list: Counter"+counter);
+            System.out.println("Completed Linked list: Counter- "+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For Linked list, Elapsed time in ms: " + (end-start) );
 	
 
-// Search from Trees
+// Search from Tree
             start = System.currentTimeMillis( );
             counter=0;
-            
+            count=0;
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
 				{
 					forSearch(String.valueOf(a[i][j]),l2);
 					for (int k=0;k<directions;k++)
-		//				break;
-						goDirections(a,i,j,k,l2);							
+					{
+						if (++count%100000==0)
+							System.out.println("Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
+						goDirections(a,i,j,k,l2);
+					}
 				}
-            System.out.println("Trees: Counter"+counter);
+            System.out.println("Trees: Counter- "+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For tress, Elapsed time in ms: " + (end-start) );
 
-			
-// Search from Quadratic probing Hash table
+            
+// Search from my Hash table
             start = System.currentTimeMillis( );
             counter=0;
+            count=0;
             for(int i=0;i<a.length;i++)
 				for (int j=0;j<a[i].length;j++)
 				{
 					forSearch(String.valueOf(a[i][j]),l3);
-					for (int k=0;k<directions;k++)						
+					for (int k=0;k<directions;k++)
+					{
+						if (++count%100000==0)
+							System.out.println("Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
 						goDirections(a,i,j,k,l3);
-				}
-										
-            System.out.println("Quadratic probing: Counter"+counter);
-            end = System.currentTimeMillis( );
-            System.out.println( "For Quadratic probing hash table, Elapsed time in ms: " + (end-start) );
-            
-// Search from Linear probing Hash table
-            start = System.currentTimeMillis( );
-            counter=0;
-            for(int i=0;i<a.length;i++)
-				for (int j=0;j<a[i].length;j++)
-				{
-					forSearch(String.valueOf(a[i][j]),l4);
-					for (int k=0;k<directions;k++)						
-						goDirections(a,i,j,k,l4);
-					
+					}
 				}	
 										
-            System.out.println("Linear probing: Counter"+counter);
+            System.out.println("My hash: Counter- "+counter);
             end = System.currentTimeMillis( );
             outFile1.close();
             outFile2.close();
             outFile3.close();
-            outFile4.close();
             
-            System.out.println( "For Linear probing hash table, Elapsed time in ms: " + (end-start) );            
+            System.out.println( "For my hash table, Elapsed time in ms: " + (end-start) );            
 			
-			
+			System.out.println("CHECK O/P FILES FOR MATCHED STRINGS");
 		} 
 		catch (Exception e) 
 		{
@@ -200,7 +158,6 @@ public class WordPuzzle
 		}
 	}
 	
-//	public static void searchTree(String str,BinarySearchTree<String> l)
 	public static void searchTree(String str,AvlTree<String> l)
 	{	
 		if(l.contains(str))		
@@ -211,23 +168,13 @@ public class WordPuzzle
 		}
 	}
 	
-	public static void searchQuadraticProbing(String str,QuadraticProbingHashTable<String> l)
+	
+	public static void searchLinearProbing(String str,MyHashTable l)
 	{	
 		if(l.contains(str))
 		{
 			counter++;
 			outFile3.println(str);
-			//System.out.println("Matched string:"+str);			
-		}	
-	}
-	
-	public static void searchLinearProbing(String str,MyHashTable l)
-	{	
-		//System.out.println("Str:"+str);
-		if(l.contains(str))
-		{
-			counter++;
-			outFile4.println(str);
 			//System.out.println("Matched string:"+str);			
 		}	
 	}
@@ -237,12 +184,8 @@ public class WordPuzzle
 		//System.out.println("Random string:"+str);
 		if (obj instanceof LinkedList<?>)
 			searchLinkedList(str,(LinkedList<String>)obj);
-//		else if (obj instanceof BinarySearchTree<?>)
-//			searchTree(str,(BinarySearchTree<String>)obj);
 		else if (obj instanceof AvlTree<?>)
  			searchTree(str,(AvlTree<String>)obj);
-		else if (obj instanceof QuadraticProbingHashTable<?>)
-			searchQuadraticProbing(str,(QuadraticProbingHashTable<String>)obj);
 		else if (obj instanceof MyHashTable)
 			searchLinearProbing(str,(MyHashTable)obj);
 	}
