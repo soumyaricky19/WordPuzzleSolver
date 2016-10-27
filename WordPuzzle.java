@@ -47,7 +47,7 @@ public class WordPuzzle
 				{
 					if(word.length() > maxlength)
 						maxlength=word.length();
-					//l1.add(word);
+					l1.add(word);
 					l2.insert(word);
 					l3.add(word);
 				 	if (++count%50000==0)
@@ -82,10 +82,10 @@ public class WordPuzzle
 				{
 					forSearch(String.valueOf(a[i][j]),l1);
 					for (int k=0;k<directions;k++)
-					{	break;
-						//if (++count%200==0)
-						//	System.out.println("Search in Linked List: Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
-						//goDirections(a,i,j,k,l1);
+					{	
+						if (++count%200==0)
+						System.out.println("Search in Linked List: Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
+						goDirections(a,i,j,k,l1);
 					}
 				}
             System.out.println("Completed Linked list: Number of matched words:- "+counter);
