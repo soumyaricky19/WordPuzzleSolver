@@ -35,16 +35,16 @@ public class MyHashTable
 	private int myhash(String x )
 	 {
 		 int hashVal = hashFunc(x);			
-	     int i=0;
+	     int i=1;
 	     
 	     while (array[hashVal] != null && !array[hashVal].equals(x))
 	     {    		
 	    	 collisions++; 
 	    	 
 	    	 // Own collision resolution strategy
-	    	 i++;
+	    	 i+=i;
 	    	 hashVal+=i;
-	    	 hashVal%=array.length;	    	
+	    	 hashVal%=array.length;	 
 	     }		     
 
 	     return hashVal;
