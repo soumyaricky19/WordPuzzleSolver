@@ -39,7 +39,7 @@ public class WordPuzzle
 			
 			//Read dictionary words
 			BufferedReader f = new BufferedReader(new FileReader("dictionary.txt"));
-			
+
 			while((word=f.readLine())!=null)
 				{
 					//l1.add(word);
@@ -49,6 +49,7 @@ public class WordPuzzle
 						System.out.println("Please wait..."+ count+" words loaded..");
 				}
 			f.close();
+ 
 			System.out.println("Total words loaded: "+count);
 			Scanner s=new Scanner(System.in);
 			System.out.println("Enter the number of rows:");
@@ -78,11 +79,11 @@ public class WordPuzzle
 					for (int k=0;k<directions;k++)
 					{	break;
 						//if (++count%200==0)
-						//	System.out.println("Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
+						//	System.out.println("Search in Linked List: Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
 						//goDirections(a,i,j,k,l1);
 					}
 				}
-            System.out.println("Completed Linked list: Counter- "+counter);
+            System.out.println("Completed Linked list: Number of matched words:- "+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For Linked list, Elapsed time in ms: " + (end-start) );
 	
@@ -98,11 +99,11 @@ public class WordPuzzle
 					for (int k=0;k<directions;k++)
 					{
 						if (++count%100000==0)
-							System.out.println("Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
+							System.out.println("Search in Tree: Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
 						goDirections(a,i,j,k,l2);
 					}
 				}
-            System.out.println("Trees: Counter- "+counter);
+            System.out.println("Completed Trees: Number of matched words- "+counter);
             end = System.currentTimeMillis( );
             System.out.println( "For tress, Elapsed time in ms: " + (end-start) );
 
@@ -118,13 +119,13 @@ public class WordPuzzle
 					for (int k=0;k<directions;k++)
 					{
 						if (++count%100000==0)
-							System.out.println("Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
+							System.out.println("Search in My hash table: Please wait.."+(count/directions)*100/(a.length*a[i].length)+"% done..");
 						goDirections(a,i,j,k,l3);
 					}
 				}	
 										
-            System.out.println("My hash: Counter- "+counter);
-            System.out.println("Collisions:"+ l3.count);
+            System.out.println("Completed My hash: Number of matched words- "+counter);
+            
             end = System.currentTimeMillis( );
             outFile1.close();
             outFile2.close();
