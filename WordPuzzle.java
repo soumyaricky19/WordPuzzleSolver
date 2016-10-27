@@ -1,6 +1,9 @@
 package project4;
 
 import java.util.*;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
+
 import java.io.*;
 
 public class WordPuzzle
@@ -12,7 +15,7 @@ public class WordPuzzle
 	static AvlTree<String> l2= new AvlTree<>();
 	static MyHashTable l3= new MyHashTable();
 	static PrintWriter outFile1,outFile2,outFile3;
-	
+	static int maxlength=0;
 	static 
 	{
 		
@@ -42,6 +45,8 @@ public class WordPuzzle
 
 			while((word=f.readLine())!=null)
 				{
+					if(word.length() > maxlength)
+						maxlength=word.length();
 					//l1.add(word);
 					l2.insert(word);
 					l3.add(word);
@@ -174,14 +179,15 @@ public class WordPuzzle
 	}
 	public static void forSearch(String str,Object obj)
 	{
-		//System.out.println("Object:"+obj);
-		//System.out.println("Random string:"+str);
-		if (obj instanceof LinkedList<?>)
-			searchLinkedList(str,(LinkedList<String>)obj);
-		else if (obj instanceof AvlTree<?>)
- 			searchTree(str,(AvlTree<String>)obj);
-		else if (obj instanceof MyHashTable)
-			searchMyHash(str,(MyHashTable)obj);
+		if (str.length() <= maxlength )
+		{
+			if (obj instanceof LinkedList<?>)
+				searchLinkedList(str,(LinkedList<String>)obj);
+			else if (obj instanceof AvlTree<?>)
+				searchTree(str,(AvlTree<String>)obj);
+			else if (obj instanceof MyHashTable)
+				searchMyHash(str,(MyHashTable)obj);
+		}
 	}
 
 	public static void displayGrid(char a[][])
